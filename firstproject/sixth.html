@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopEase - Your Favorite Online Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fff;
+      --text-color: #000;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #f8f9fa;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .hero {
+      background: url('https://media.burford.co.uk/images/SNY04089.jpg_edit.width-2880_JNMp3hpjYtNM3610.jpg') no-repeat center center;
+      background-size: cover;
+      height: 80vh;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .card {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">ShopEase</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item">
+            <button class="btn btn-sm btn-light ms-3" onclick="toggleDarkMode()"><i class="bi bi-moon"></i></button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-sm btn-outline-warning ms-2" onclick="viewCart()">Cart (<span id="cart-count">0</span>)</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero text-center">
+    <h1 class="display-4 fw-bold">Welcome to ShopEase</h1>
+    <p class="lead">Find the best deals on the products you love.</p>
+    <a href="#products" class="btn btn-primary btn-lg">Shop Now</a>
+  </section>
+
+  <!-- Search Box -->
+  <div class="container my-4 text-center">
+    <input type="text" id="searchBox" class="form-control w-50 mx-auto" placeholder="Search for products..." onkeyup="filterProducts()">
+  </div>
+
+  <!-- Featured Products -->
+  <section id="products" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Featured Products</h2>
+      <div class="row g-4" id="product-list"></div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Why Shop With Us?</h2>
+      <div class="row text-center g-4">
+        <div class="col-md-4">
+          <i class="bi bi-truck fs-1 text-primary"></i>
+          <h5 class="mt-3">Fast Shipping</h5>
+          <p>Get your orders delivered within 2-3 days nationwide.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="bi bi-shield-check fs-1 text-primary"></i>
+          <h5 class="mt-3">Secure Payment</h5>
+          <p>Your transactions are 100% safe and encrypted.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="bi bi-star-fill fs-1 text-primary"></i>
+          <h5 class="mt-3">Top Rated Products</h5>
+          <p>Only the best items, highly rated by our customers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Get in Touch</h2>
+      <form class="row g-3 justify-content-center">
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="you@example.com">
+        </div>
+        <div class="col-md-6">
+          <label for="message" class="form-label">Message</label>
+          <textarea class="form-control" id="message" rows="2" placeholder="Your message..."></textarea>
+        </div>
+        <div class="col-12 text-center">
+          <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-4">
+    <p class="mb-0">&copy; 2025 ShopEase. All rights reserved.</p>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const productData = [
+      { name: 'Elegant suits', price: 49.99, image: 'https://www.lavanyathelabel.com/cdn/shop/files/0H8A2867_c39fe21e-3bac-4f29-8823-64904684b255_1000x.jpg?v=1740034400' },
+      { name: 'Modern sneakers', price: 79.99, image: 'https://www.irranova.com/cdn/shop/files/spadreille01.webp?v=1720433468&width=535' },
+      { name: 'Elegant watch', price: 99.99, image: 'https://www.boderry.com/cdn/shop/products/026_1155ee68-dc00-4a48-9cc4-cec5dad97d97.png?v=1676291651&width=1000' },
+      { name: 'Elegant braclets', price: 99.99, image: 'https://img.tatacliq.com/images/i21//658Wx734H/MP000000024148404_658Wx734H_202412211905301.jpeg' },
+      { name: 'Silk Satin Evening Gown', price: 109.99, image: 'https://www.iwearmystyle.in/wp-content/uploads/2024/04/6a-1.png' },
+      { name: 'Cashmere Sweater', price: 90.99, image: 'https://assets.ajio.com/medias/sys_master/root/20221012/IIri/6345cf26f997ddfdbd213c00/-473Wx593H-410326229-0553-MODEL.jpg' },
+      { name: 'Tailored Wool Coat', price: 119.99, image: 'https://lindseystreet.in/cdn/shop/products/il_fullxfull.2853747219_7913.jpg?v=1672317756' },
+      { name: 'Elegant gown', price: 89.99, image: 'https://imgmediagumlet.lbb.in/media/2023/10/65238532e4b2194c461138a0_1696826674173.jpg' },
+      { name: 'Chanel-Inspired Tweed Suit', price: 134.99, image: 'https://i.etsystatic.com/19400124/r/il/5ab342/2147455334/il_1588xN.2147455334_b0pt.jpg' },
+      { name: 'Custom Embroidered Maxi Dress', price: 89.99, image: 'https://images.meesho.com/images/products/151278347/bhxjr_512.webp' },
+      { name: 'Luxe Cashmere Cardigans', price: 89.99, image: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTSz_YhuX5bB2NJkh6C6gMavFE1yBaRWI5aIn-3-wPje8c0S7sAsrp3lhW6OberA0iv5JjLyKOB3lb3Ke0anSev8FEXu0AR5MQlDqBOinE' },
+      { name: 'Pencil Skirt with Gold Detailing', price: 89.99, image: 'https://images.meesho.com/images/products/516368329/yabek_512.webp' },
+      { name: 'Brocade Silk Blouse', price: 89.99, image: 'https://www.storeno6.com/cdn/shop/files/3_b387cec4-a46d-4c34-8ebb-a1930e3668da.jpg?v=1738671421' },
+      { name: 'Sequin Cocktail Dress', price: 89.99, image: 'https://images.meesho.com/images/products/17281118/tq76t_512.webp' },
+      { name: 'Luxury Fur Shaw', price: 89.99, image: 'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/2/4/24321603_1.jpg.jpg?rnd=20200526195200&tr=w-1080' },
+      { name: 'High-Waisted Designer Trousers', price: 89.99, image: 'https://www.shopstyleash.com/cdn/shop/files/7DA3C190-BA00-4125-B3BE-F97349E3B964.jpg?v=1722663773&width=246' },
+      { name: 'Italian Leather Handcrafted Trench Coat', price: 89.99, image: 'https://i.etsystatic.com/50519835/r/il/ef2ec7/6177310373/il_1588xN.6177310373_fnjm.jpg' },
+      { name: 'Peacoat with Gold Button Accents', price: 89.99, image: 'https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/18679606/2022/9/12/e97a11fe-59fd-4180-97ab-bf34d5fa49801662988367725-all-about-you-Women-Mustard-Brown-Solid-Pea-Coat-27716629883-1.jpg' }
+      
+    ]
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function addToCart(product, price) {
+      cart.push({ product, price });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      document.getElementById('cart-count').innerText = cart.length;
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function viewCart() {
+      alert("Cart Items:\n" + cart.map(item => `${item.product}: $${item.price}`).join('\n'));
+    }
+
+    function filterProducts() {
+      const query = document.getElementById('searchBox').value.toLowerCase();
+      document.querySelectorAll('.product-item').forEach(item => {
+        const name = item.querySelector('.card-title').textContent.toLowerCase();
+        item.style.display = name.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('product-list');
+      container.innerHTML = '';
+      productData.forEach(product => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4 product-item';
+        col.innerHTML = `
+          <div class="card h-100">
+            <img src="${product.image}" class="card-img-top" alt="${product.name}">
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text">$${product.price.toFixed(2)}</p>
+              <button class="btn btn-outline-primary w-100" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+            </div>
+          </div>`;
+        container.appendChild(col);
+      });
+    }
+
+    window.onload = () => {
+      updateCartCount();
+      renderProducts();
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
